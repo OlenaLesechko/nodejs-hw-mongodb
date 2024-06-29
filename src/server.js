@@ -1,6 +1,7 @@
 import express from 'express';
 import cors from 'cors';
-import pino from 'pino-http';
+import pino from 'pino';
+import pinoPretty from 'pino-pretty';
 import mongoose from 'mongoose';
 import {env} from './utils/env.js';
 import { ENV_VARS } from './constans/index.js';
@@ -12,9 +13,16 @@ const PORT = Number(env(ENV_VARS.PORT, '3000'));
 
 export const startServer = () => {
     const app = express();
+    const logger = pino({
+    prettyPrint: {
+        colorize: true, 
+        levelFirst: true,
+    },
+    prettifier: pinoPretty,
+    });
     app.use(express.json());
     app.use(cors());
-    app.use(pino({ transport: { target: 'pino-pretty' } }));
+    app.use(pino({ logger }));
 
     app.get('/contacts', async (req, res, next) => {
         try {
@@ -60,5 +68,4 @@ export const startServer = () => {
     });
 };
 
-// Call the startServer function to start the server
 startServer();
