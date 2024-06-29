@@ -1,13 +1,9 @@
-const { setupServer } = require('./server');
+import { startServer } from './server.js';
+import { initMongoDb } from './db/initMongoConnection.js';
 
-setupServer();
 
-require('dotenv').config(); 
-const { initMongoConnection } = require('./db/initMongoConnection');
-initMongoConnection()
-    .then(() => {
-        require('./server').setupServer();
-    })
-    .catch((error) => {
-        console.error('Error initializing MongoDB connection:', error);
-    });
+const bootstrap = async() => {
+    await initMongoDb();
+    startServer();
+};
+bootstrap();
