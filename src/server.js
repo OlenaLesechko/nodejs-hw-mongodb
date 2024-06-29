@@ -14,15 +14,14 @@ const PORT = Number(env(ENV_VARS.PORT, '3000'));
 export const startServer = () => {
     const app = express();
     const logger = pino({
-    prettyPrint: {
-        colorize: true, 
-        levelFirst: true,
-    },
-    prettifier: pinoPretty,
-    });
+    level: process.env.LOG_LEVEL || 'info',
+    prettifier: pinoPretty, 
+});
     app.use(express.json());
     app.use(cors());
-    app.use(pino({ logger }));
+    app.use(pino({
+    logger,
+}));
 
     app.get('/contacts', async (req, res, next) => {
         try {
