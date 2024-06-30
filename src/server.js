@@ -8,11 +8,10 @@ import {getAllContacts, getContactById} from './services/contacts.js';
 import  errorHandlerMiddleware from '../src/middlewares/errorHandlerMiddleware.js';
 import notFoundMiddleware from '../src/middlewares/notFoundMiddleware.js';
 
-const PORT = Number(env(MONGO_VARS.PORT, '3000'));
+const PORT = Number(env(MONGO_VARS.PORT, '3001'));
 
 export const startServer = () => {
     const app = express();
-    
     app.use(express.json());
     app.use(cors());
     app.use(
