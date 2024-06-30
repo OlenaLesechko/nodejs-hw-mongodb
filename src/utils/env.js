@@ -4,10 +4,10 @@ dotenv.config();
 
 export const env = (key, defaultValue) => {
     const value = process.env[key];
-    if (value !== undefined) {
+    if (value) {
         return value;
     }
-    if (defaultValue !== undefined) {
+    if (defaultValue) {
         return defaultValue;
     }
     throw new Error(`Missing environment variable: ${key}`);

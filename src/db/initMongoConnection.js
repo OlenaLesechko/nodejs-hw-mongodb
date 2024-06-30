@@ -1,11 +1,15 @@
 import mongoose from 'mongoose';
 import { env } from '../utils/env.js';
+import { MONGO_VARS } from '../constans/index.js';
+
 export const initMongoDb = async () => {
-    try{
-        const user = env('MONGODB_USER');
-        const password = env('MONGODB_PASSWORD');
-        const url = env('MONGODB_URL');
-        const dbName = env('MONGODB_DB');
+    try {
+        const user = env(MONGO_VARS.MONGODB_USER);
+        const password = env(MONGO_VARS.MONGODB_PASSWORD);
+        const url = env(MONGO_VARS.MONGODB_URL);
+        const dbName = env(MONGO_VARS.MONGODB_DB, "");
+
+        console.log({ user, password: '******', url, dbName });
 
         if (!user || !password || !url || !dbName) {
             throw new Error('Missing required MongoDB environment variables');
@@ -24,5 +28,3 @@ export const initMongoDb = async () => {
         throw error;
     }
 };
-
-    

@@ -3,12 +3,12 @@ import cors from 'cors';
 import pino from 'pino-http';
 import mongoose from 'mongoose';
 import {env} from './utils/env.js';
-import { ENV_VARS } from './constans/index.js';
+import { MONGO_VARS } from './constans/index.js';
 import {getAllContacts, getContactById} from './services/contacts.js';
 import  errorHandlerMiddleware from '../src/middlewares/errorHandlerMiddleware.js';
 import notFoundMiddleware from '../src/middlewares/notFoundMiddleware.js';
 
-const PORT = Number(env(ENV_VARS.PORT, '3000'));
+const PORT = Number(env(MONGO_VARS.PORT, '3000'));
 
 export const startServer = () => {
     const app = express();
