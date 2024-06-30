@@ -6,11 +6,23 @@ export const initMongoDb = async () => {
         const password = env('MONGODB_PASSWORD');
         const url = env('MONGODB_URL');
         const dbName = env('MONGODB_DB');
-    await mongoose.connect(`mongodb+srv://${user}:${password}@${url}/${dbName}?retryWrites=true&w=majority`,);
-    console.log('MongoDb connection successfully established!');
-    }catch(error){
-        console.log("Error while setting up mongo connection",error);
+
+        if (!user || !password || !url || !dbName) {
+            throw new Error('Missing required MongoDB environment variables');
+        }
+
+        const connectionString = `mongodb+srv://${user}:${password}@${url}/${dbName}?retryWrites=true&w=majority`;
+
+        await mongoose.connect(connectionString, {
+            useNewUrlParser: true,
+            useUnifiedTopology: true,
+        });
+
+        console.log('MongoDb connection successfully established!');
+    } catch (error) {
+        console.error('Error while setting up mongo connection:', error);
         throw error;
     }
-
 };
+
+    
