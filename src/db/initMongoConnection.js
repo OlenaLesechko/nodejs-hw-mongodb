@@ -7,7 +7,7 @@ export const initMongoDb = async () => {
         const user = env(MONGO_VARS.MONGODB_USER);
         const password = env(MONGO_VARS.MONGODB_PASSWORD);
         const url = env(MONGO_VARS.MONGODB_URL);
-        const dbName = env(MONGO_VARS.MONGODB_DB, "");
+        const dbName = env(MONGO_VARS.MONGODB_DB);
 
         console.log({ user, password: '******', url, dbName });
 
@@ -15,7 +15,7 @@ export const initMongoDb = async () => {
             throw new Error('Missing required MongoDB environment variables');
         }
 
-        const connectionString = `mongodb+srv://${user}:${password}@${url}/${dbName}?retryWrites=true&w=majority`;
+        const connectionString = `mongodb+srv://${process.env[MONGO_VARS.MONGODB_USER]}:${process.env[MONGO_VARS.MONGODB_PASSWORD]}@${process.env[MONGO_VARS.MONGODB_URL]}/${process.env[MONGO_VARS.MONGODB_DB]}`;
 
         await mongoose.connect(connectionString, {
             useNewUrlParser: true,

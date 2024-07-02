@@ -3,15 +3,15 @@ import cors from 'cors';
 import pino from 'pino-http';
 import mongoose from 'mongoose';
 import {env} from './utils/env.js';
-import { MONGO_VARS } from './constans/index.js';
+/* 
+import { MONGO_VARS } from './constans/index.js'; */
 import {getAllContacts, getContactById} from './services/contacts.js';
 import  errorHandlerMiddleware from '../src/middlewares/errorHandlerMiddleware.js';
 import notFoundMiddleware from '../src/middlewares/notFoundMiddleware.js';
 
-const PORT = Number(env(MONGO_VARS.PORT, '3002'));
-
 export const startServer = () => {
     const app = express();
+    const PORT = Number(env('PORT', '3000'));
     app.use(express.json());
     app.use(cors());
     app.use(
@@ -28,29 +28,29 @@ export const startServer = () => {
         res.status(200).json({
             status: 200,
             message: 'Successfully found contacts!',
-            data: contacts
+            data: contacts,
         });
         } catch (error) {
         next(error);
         }
     });
 
-    app.get('/contacts/:contactId', async (req, res, next) => {
-        const { contactId } = req.params;
-        console.log(`Received contactId: ${contactId}`);
+    app.get('/contacts/:id', async (req, res, next) => {
+        const { id } = req.params;
+        console.log(`Received contactId: ${id}`);
 
-        if (!mongoose.Types.ObjectId.isValid(contactId)) {
+        if (!mongoose.Types.ObjectId.isValid(id)) {
         return res.status(400).json({ message: 'Invalid contact ID format' });
         }
 
         try {
-        const contact = await getContactById(contactId);
+        const contact = await getContactById(id);
         if (!contact) {
             return res.status(404).json({ message: 'Contact not found' });
         }
         res.status(200).json({
             status: 200,
-            message: `Successfully found contact with id ${contactId}!`,
+            message: `Successfully found contact with id ${id}!`,
             data: contact
         });
         } catch (error) {

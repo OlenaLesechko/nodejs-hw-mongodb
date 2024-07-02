@@ -12,3 +12,4 @@ export const env = (key, defaultValue) => {
     }
     throw new Error(`Missing environment variable: ${key}`);
 };
+

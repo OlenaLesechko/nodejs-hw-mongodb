@@ -1,4 +1,4 @@
-import { Contact } from '../db/models/Contacts.js'; // Ensure this matches the exact case
+import { Contact } from '../db/contact'; // Ensure this matches the exact case
 
 export const getAllContacts = async () => {
     try {
@@ -20,3 +20,4 @@ export const getAllContacts = async () => {
         throw new Error(`Unable to retrieve contact by ID: ${error.message}`);
     }
 };
+
