@@ -2,15 +2,17 @@ import express from 'express';
 import cors from 'cors';
 import pino from 'pino-http';
 import mongoose from 'mongoose';
-import { env } from './utils/env.js';
+/* import { env } from './utils/env.js'; */
 import { getAllContacts, getContactById } from './services/contacts.js';
 import errorHandlerMiddleware from './middlewares/errorHandlerMiddleware.js';
 import notFoundMiddleware from './middlewares/notFoundMiddleware.js';
 import dotenv from 'dotenv';
+
 dotenv.config();
+
 export const startServer = async () => {
     const app = express();
-    const PORT = Number(env(PORT, '3000'));
+    const PORT = process.env.PORT || 3001;
 
 
     app.use(express.json());
