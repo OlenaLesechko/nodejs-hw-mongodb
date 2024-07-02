@@ -6,10 +6,11 @@ import { env } from './utils/env.js';
 import { getAllContacts, getContactById } from './services/contacts.js';
 import errorHandlerMiddleware from './middlewares/errorHandlerMiddleware.js';
 import notFoundMiddleware from './middlewares/notFoundMiddleware.js';
-
+import dotenv from 'dotenv';
+dotenv.config();
 export const startServer = async () => {
     const app = express();
-    const PORT = Number(env('PORT', '3000'));
+    const PORT = Number(env(PORT, '3000'));
 
 
     app.use(express.json());
@@ -20,7 +21,7 @@ export const startServer = async () => {
         },
     }));
 
- 
+
     app.get('/contacts', async (req, res, next) => {
         try {
             const contacts = await getAllContacts();
