@@ -11,7 +11,7 @@ export const startServer = async () => {
     const app = express();
     const PORT = Number(env('PORT', '3000'));
 
-    // Middleware
+
     app.use(express.json());
     app.use(cors());
     app.use(pino({
@@ -20,7 +20,7 @@ export const startServer = async () => {
         },
     }));
 
-    // Routes
+ 
     app.get('/contacts', async (req, res, next) => {
         try {
             const contacts = await getAllContacts();
@@ -56,13 +56,13 @@ export const startServer = async () => {
         }
     });
 
-    // Middleware for handling 404 errors
+
     app.use(notFoundMiddleware);
 
-    // Error handler middleware
+
     app.use(errorHandlerMiddleware);
 
-    // Connect to MongoDB
+
     try {
         await mongoose.connect(
             `mongodb+srv://${process.env.MONGODB_USER}:${process.env.MONGODB_PASSWORD}@${process.env.MONGODB_URL}/${process.env.MONGODB_DB}`,
@@ -77,7 +77,7 @@ export const startServer = async () => {
         process.exit(1);
     }
 
-    // Start server
+
     app.listen(PORT, () => {
         console.log(`Server started on port ${PORT}`);
     });

@@ -1,49 +1,24 @@
-import express from 'express';
-import { getAllContacts, getContactById } from './services/contacts.js';
+import { Contact } from "../db/contact.js"; 
 
-const app = express();
-
-app.get('/contacts', async (req, res, next) => {
+export const getAllContacts = async () => {
     try {
-        const contacts = await getAllContacts();
-        res.status(200).json({
-            status: 200,
-            message: 'Successfully retrieved contacts',
-            data: contacts
-        });
+        const contacts = await Contact.find();
+        return contacts;
     } catch (error) {
-        next(error);
+        throw new Error(`Unable to retrieve contacts: ${error.message}`);
     }
-});
+    };
 
-
-app.get('/contacts/:id', async (req, res, next) => {
-    const { id } = req.params;
-
+    export const getContactById = async (contactId) => {
     try {
-        const contact = await getContactById(id);
-        res.status(200).json({
-            status: 200,
-            message: `Successfully retrieved contact with ID ${id}`,
-            data: contact
-        });
+        const contact = await Contact.findById(contactId);
+        if (!contact) {
+        throw new Error('Contact not found');
+        }
+        return contact;
     } catch (error) {
-        next(error);
+        throw new Error(`Unable to retrieve contact by ID: ${error.message}`);
     }
-});
+};
 
 
-app.use((err, req, res, ) => {
-    console.error(err);
-    res.status(500).json({
-        status: 500,
-        message: 'Internal server error',
-        error: err.message
-    });
-});
-
-
-const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => {
-    console.log(`Server is running on http://localhost:${PORT}`);
-});
