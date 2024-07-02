@@ -10,10 +10,7 @@ const initMongoDb = async () => {
 
         const connectionString = `mongodb+srv://${mongodbUser}:${mongodbPassword}@${mongodbUrl}/${mongodbDatabase}?retryWrites=true&w=majority`;
 
-        await mongoose.connect(connectionString, {
-            useNewUrlParser: true,
-            useUnifiedTopology: true,
-        });
+        await mongoose.connect(connectionString, {});
 
         console.log('MongoDb connection successfully established!');
     } catch (error) {
